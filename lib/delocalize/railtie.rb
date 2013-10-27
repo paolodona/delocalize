@@ -5,9 +5,9 @@ module Delocalize
         require 'delocalize/rails_ext/active_record'
       end
 
-      ActiveSupport.on_load :action_view do
-        require 'delocalize/rails_ext/action_view'
-      end
+      # ActiveSupport.on_load :action_view do
+      #   require 'delocalize/rails_ext/action_view'
+      # end
 
       require 'delocalize/rails_ext/time_zone'
     end

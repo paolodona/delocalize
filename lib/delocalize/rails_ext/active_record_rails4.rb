@@ -1,12 +1,13 @@
 ActiveRecord::ConnectionAdapters::Column.class_eval do
+
   def type_cast_with_localization(value)
     new_value = value
-    if date?
+    if number? && I18n.delocalization_enabled?
+      new_value = Numeric.parse_localized(value)
+    elsif date?
       new_value = Date.parse_localized(value) rescue value
     elsif time?
       new_value = Time.parse_localized(value) rescue value
-    elsif number?
-      new_value = Numeric.parse_localized(value) rescue value
     end
     type_cast_without_localization(new_value)
   end
@@ -14,15 +15,16 @@ ActiveRecord::ConnectionAdapters::Column.class_eval do
   alias_method_chain :type_cast, :localization
 
   def type_cast_for_write_with_localization(value)
+    new_value = value
     if number? && I18n.delocalization_enabled?
-      value = Numeric.parse_localized(value)
-      if type == :integer
-        value = value.to_i
-      else
-        value = value.to_f
-      end
+      new_value = Numeric.parse_localized(value)
+      new_value = (type == :integer) ? new_value.to_i : new_value.to_f
+    elsif date?
+      new_value = Date.parse_localized(value) rescue value
+    elsif time?
+      new_value = Time.parse_localized(value) rescue value
     end
-    type_cast_for_write_without_localization(value)
+    type_cast_for_write_without_localization(new_value)
   end
 
   alias_method_chain :type_cast_for_write, :localization
