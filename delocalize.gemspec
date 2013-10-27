@@ -18,7 +18,6 @@ Gem::Specification.new do |s|
     "lib/delocalize/i18n_ext.rb",
     "lib/delocalize/localized_date_time_parser.rb",
     "lib/delocalize/localized_numeric_parser.rb",
-    "lib/delocalize/rails_ext/action_view.rb",
     "lib/delocalize/rails_ext/active_record.rb",
     "lib/delocalize/rails_ext/time_zone.rb",
     "lib/delocalize/railtie.rb",
@@ -37,7 +36,7 @@ Gem::Specification.new do |s|
     "test/test_helper.rb",
   ]
 
-  s.add_dependency 'rails', '>= 3.0.pre'
+  s.add_dependency 'rails', '>= 4.0.0'
   s.add_development_dependency 'sqlite3', '~> 1.3.4'
   s.add_development_dependency 'timecop', '~> 0.3.5'
 end
